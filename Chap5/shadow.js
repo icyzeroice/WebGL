@@ -39,6 +39,7 @@ window.onload = function init() {
 
     gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
 
+    // 开启隐藏面消除
     gl.enable(gl.DEPTH_TEST);
 
     light = vec3(0.0, 2.0, 0.0);
@@ -54,21 +55,18 @@ window.onload = function init() {
     up = vec3(0.0, 1.0, 0.0);
     eye = vec3(1.0, 1.0, 1.0);
 
-    // color square red and shadow black
 
+    // 初始化红色（用于方形）和黑色（用于阴影颜色）
     red = vec4(1.0, 0.0, 0.0, 1.0);
     black = vec4(0.0, 0.0, 0.0, 1.0);
 
-    // square
-
+    // 设置方形的四个顶点位置
     pointsArray.push(vec4( -0.5, 0.5,  -0.5, 1.0 ));
     pointsArray.push(vec4( -0.5,  0.5,  0.5, 1.0 ));
     pointsArray.push(vec4( 0.5, 0.5,  0.5, 1.0 ));
     pointsArray.push(vec4( 0.5,  0.5,  -0.5, 1.0 ));
 
-    //
-    //  Load shaders and initialize attribute buffers
-    //
+    // 加载着色器，初始化参数表
     var program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
 
@@ -82,6 +80,7 @@ window.onload = function init() {
 
     fColor = gl.getUniformLocation(program, "fColor");
 
+    // 将矩阵传入着色器，在 GPU 中完成计算
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
 
@@ -102,6 +101,7 @@ var render = function() {
 
         // model-view matrix for square
 
+        // lookAt 的定义位于 MV.js 中
         modelViewMatrix = lookAt(eye, at, up);
 
         // send color and matrix for square then render
